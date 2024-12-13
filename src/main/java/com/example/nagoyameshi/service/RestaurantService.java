@@ -41,6 +41,8 @@ public class RestaurantService {
             Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
             copyImageFile(imageFile, filePath);
             restaurant.setImageName(hashedImageName);
+        } else {
+        	restaurant.setImageName("noimage.jpg");
         }
         
         restaurant.setCategory(category);                
@@ -67,6 +69,8 @@ public class RestaurantService {
             Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
             copyImageFile(imageFile, filePath);
             restaurant.setImageName(hashedImageName);
+        } else {
+        	restaurant.setImageName("noimage.png");
         }
 
         restaurant.setCategory(category);                

@@ -78,11 +78,11 @@
              
                                  <div class="row pb-2 mb-2 border-bottom">
                                      <div class="col-4">
-                                         <span class="fw-bold">料金</span>
+                                         <span class="fw-bold">金額</span>
                                      </div>
              
                                      <div class="col">
-                                         <span th:text="${#numbers.formatInteger(restaurant.getPrice(), 1, 'COMMA') + '円'}"></span>
+                                         <span th:text="${#numbers.formatInteger(restaurant.getPrice(), 1, 'COMMA') + '円 / 人'}"></span>
                                      </div>
                                  </div> 
                                  

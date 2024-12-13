@@ -13,13 +13,14 @@ public interface RestaurantRepository extends  JpaRepository<Restaurant, Integer
 	
     public Page<Restaurant> findByNameLikeOrAddressLikeOrderByCreateDateDesc(String nameKeyword, String addressKeyword, Pageable pageable);  
     public Page<Restaurant> findByNameLikeOrAddressLikeOrderByPriceAsc(String nameKeyword, String addressKeyword, Pageable pageable);  
-    public Page<Restaurant> findByAddressLikeOrderByCreateDateDesc(String area, Pageable pageable);
-    public Page<Restaurant> findByAddressLikeOrderByPriceAsc(String area, Pageable pageable);
+    public Page<Restaurant> findByCategoryIdOrderByCreateDateDesc(Integer category, Pageable pageable);
+    public Page<Restaurant> findByCategoryIdOrderByPriceAsc(Integer category, Pageable pageable);
     public Page<Restaurant> findByPriceLessThanEqualOrderByCreateDateDesc(Integer price, Pageable pageable);
     public Page<Restaurant> findByPriceLessThanEqualOrderByPriceAsc(Integer price, Pageable pageable); 
     public Page<Restaurant> findAllByOrderByCreateDateDesc(Pageable pageable);
     public Page<Restaurant> findAllByOrderByPriceAsc(Pageable pageable);  
+    public Page<Restaurant> findByCategoryIdOrderById(Integer id ,Pageable pageable);  
 
-    public List <Restaurant> findTop10ByOrderByCreateDateDesc();
+    public List <Restaurant> findTop5ByOrderByCreateDateDesc();
     
 }

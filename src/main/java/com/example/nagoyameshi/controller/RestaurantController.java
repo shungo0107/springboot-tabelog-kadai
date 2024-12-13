@@ -1,5 +1,7 @@
 package com.example.nagoyameshi.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Restaurant;
 import com.example.nagoyameshi.entity.Review;
 import com.example.nagoyameshi.entity.User;
 import com.example.nagoyameshi.form.ReservationInputForm;
+import com.example.nagoyameshi.repository.CategoryRepository;
 import com.example.nagoyameshi.repository.FavoriteRepository;
 import com.example.nagoyameshi.repository.RestaurantRepository;
 import com.example.nagoyameshi.repository.ReviewRepository;
@@ -26,25 +30,29 @@ import com.example.nagoyameshi.security.UserDetailsImpl;
 public class RestaurantController {
     private final RestaurantRepository restaurantRepository;
     private final ReviewRepository reviewRepository;        
-    private final FavoriteRepository favoriteRepository;    
+    private final FavoriteRepository favoriteRepository;
+    private final CategoryRepository categoryRepository;
     
     public RestaurantController(RestaurantRepository restaurantRepository,
     													ReviewRepository reviewRepository,
-    													FavoriteRepository favoriteRepository) {
+    													FavoriteRepository favoriteRepository,
+    													CategoryRepository categoryRepository) {
         this.restaurantRepository = restaurantRepository; 
         this.favoriteRepository = favoriteRepository;  
         this.reviewRepository = reviewRepository;
+        this.categoryRepository = categoryRepository;
     }     
   
     @GetMapping
     public String index(@RequestParam(name = "keyword", required = false) String keyword,
-                        @RequestParam(name = "area", required = false) String area,
+                        @RequestParam(name = "category", required = false) Integer category,
                         @RequestParam(name = "price", required = false) Integer price,
                         @RequestParam(name = "order", required = false) String order,
                         @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
                         Model model) 
     {
         Page<Restaurant> restaurantPage;
+        List<Category> categoryList = categoryRepository.findAll();
                 
         if (keyword != null && !keyword.isEmpty()) {
             if (order != null && order.equals("priceAsc")) {
@@ -52,11 +60,11 @@ public class RestaurantController {
             } else {
                 restaurantPage = restaurantRepository.findByNameLikeOrAddressLikeOrderByCreateDateDesc("%" + keyword + "%", "%" + keyword + "%", pageable);
             }            
-       } else if (area != null && !area.isEmpty()) {
+       } else if (category != null) {
             if (order != null && order.equals("priceAsc")) {
-                restaurantPage = restaurantRepository.findByAddressLikeOrderByPriceAsc("%" + area + "%", pageable);
+                restaurantPage = restaurantRepository.findByCategoryIdOrderByPriceAsc(category , pageable);
             } else {
-                restaurantPage = restaurantRepository.findByAddressLikeOrderByCreateDateDesc("%" + area + "%", pageable);
+                restaurantPage = restaurantRepository.findByCategoryIdOrderByCreateDateDesc(category , pageable);
             }            
        } else if (price != null) {
             if (order != null && order.equals("priceAsc")) {
@@ -70,13 +78,14 @@ public class RestaurantController {
             } else {
                 restaurantPage = restaurantRepository.findAllByOrderByCreateDateDesc(pageable);   
             }            
-       }                 
+       }
         
         model.addAttribute("restaurantPage", restaurantPage);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("area", area);
+        model.addAttribute("category", category);
         model.addAttribute("price", price);
         model.addAttribute("order", order);
+        model.addAttribute("categoryList", categoryList);
         
         return "restaurants/index";
     }

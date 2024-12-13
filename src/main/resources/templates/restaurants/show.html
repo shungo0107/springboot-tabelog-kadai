@@ -25,7 +25,7 @@
                                  </ol>
                              </nav>
                              
-                             <div sec:authorize="isAuthenticated()" class="d-flex justify-content-end">
+                             <div sec:authorize="hasRole('ROLE_PAID')" class="d-flex justify-content-end">
 								 <div th:if="${hasUserFavorite}">
 									 <form th:action="@{/favorite/delete/__${restaurant.id}__}" method="post">
 										 <button type="submit" class="btn btn-link text-decolation-none right">&#9829;お気に入り解除</button> <!-- &#9829; は ♥ -->
@@ -74,7 +74,7 @@
                      
                                          <div class="row pb-2 mb-2 border-bottom">
                                              <div class="col-4">
-                                                 <span class="fw-bold">宿泊料金</span>
+                                                 <span class="fw-bold">金額</span>
                                              </div>
                      
                                              <div class="col">
@@ -123,6 +123,15 @@
                                          </div>                                
                                      </div>
                                      
+                                     <div class="col-lg-4 px-0 ps-lg-4 mb-4" sec:authorize="isAnonymous()">                  
+                                         <div class="card">
+                                             <div class="card-body">                                                                                                                                                                                                                     
+                                                 <p class="card-text">予約するには<a th:href="@{/paid}">ログイン</a>が必要です。</p>                                                                                                                                            
+                                                 <button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn" disabled>予約する</button>                                                                                                                
+                                             </div>
+                                         </div>  
+                                     </div>  
+                                                       
                                      <div sec:authorize="hasRole('ROLE_GENERAL')" class="col-lg-4 px-0 ps-lg-4 mb-4">                  
                                          <div class="card">
                                              <div class="card-body">                                                                                                                                                                                                                     
@@ -155,16 +164,7 @@
                                              </div>
                                          </div>  
                                      </div>
-                                     
-                                     <div class="col-lg-4 px-0 ps-lg-4 mb-4">                  
-                                         <div class="card">
-                                             <div class="card-body">                                                                                                                                                                                                                     
-                                                 <p class="card-text">予約するには<a th:href="@{/paid}">ログイン</a>が必要です。</p>                                                                                                                                            
-                                                 <button type="submit" class="btn text-white shadow-sm w-100 nagoyameshi-btn" disabled>予約する</button>                                                                                                                
-                                             </div>
-                                         </div>  
-                                     </div>  
-                                                                                                                                                       
+                                                                                                                                     
                                  </div>                                                                                             
                              </div>
                          </div>

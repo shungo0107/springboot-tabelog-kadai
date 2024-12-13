@@ -53,8 +53,6 @@
          
                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">                                                                  
                                     <a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/user}">会員情報</a>
-									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/reservations}">予約一覧</a> 
-									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/favorite/list}">お気に入り一覧</a> 
 									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/paid}">有料会員登録</a> 
 
                                      <div class="dropdown-divider"></div>  
@@ -75,7 +73,6 @@
                                     <a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/user}">会員情報</a>
 									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/reservations}">予約一覧</a> 
 									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/favorite/list}">お気に入り一覧</a> 
-									<a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/paid}">有料会員登録</a> 
 
                                      <div class="dropdown-divider"></div>  
                                      <a class="dropdown-item nagoyameshi-dropdown-item" th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -114,7 +111,7 @@
          <div th:fragment="footer" th:remove="tag">
              <footer>
                  <div class="d-flex justify-content-center align-items-center h-100">
-                     <p class="text-center text-muted small mb-0">&copy; SAMURAI Travel All rights reserved.</p>      
+                     <p class="text-center text-muted small mb-0">&copy; NAGOYAMESHI All rights reserved.</p>      
                  </div>                 
              </footer>
          </div>

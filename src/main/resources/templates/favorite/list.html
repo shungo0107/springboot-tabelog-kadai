@@ -45,7 +45,7 @@
                                                      </p>   
                                                                                                                                                                                                                                     
                                                      <p class="card-text">
-                                                         <span th:text="${#numbers.formatInteger(favorites.getRestaurant().getPrice(), 1, 'COMMA') + '円 / 泊'}"></span>
+                                                         <span th:text="${#numbers.formatInteger(favorites.getRestaurant().getPrice(), 1, 'COMMA') + '円 / 人'}"></span>
                                                      </p>                                    
                                                  </div>
                                              </div>
@@ -56,7 +56,7 @@
              
                              <!-- ページネーション -->
                              <div th:if="${favoritePage.getTotalPages() > 1}" class="d-flex justify-content-center">
-                                 <nav aria-label="民宿一覧ページ">
+                                 <nav aria-label="店舗一覧ページ">
                                      <ul class="pagination">
                                          <li class="page-item">
                                              <span th:if="${favoritePage.isFirst()}" class="page-link disabled">前</span>
