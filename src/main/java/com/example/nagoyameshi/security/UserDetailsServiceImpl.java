@@ -33,8 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         	System.out.println(e);
             throw new UsernameNotFoundException("ユーザーが見つかりませんでした。");
         }
-    }  
-    
+    }
     
     
 }

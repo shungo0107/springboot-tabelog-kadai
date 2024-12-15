@@ -26,8 +26,39 @@ public class StripeWebhookController {
 
     public StripeWebhookController(StripeService stripeService) {
         this.stripeService = stripeService;
+
     }
 
+    @PostMapping("/stripe/webhook")
+    public ResponseEntity<String> webhook(@RequestBody String payload, 
+    																	@RequestHeader("Stripe-Signature") String sigHeader) {
+        Stripe.apiKey = stripeApiKey;
+        Event event = null;
+
+        try {
+            event = Webhook.constructEvent(payload, sigHeader, webhookSecret);
+            System.out.println("★★★★★★★★★★★★★");
+            System.out.println("イベント：" + event.getType());
+            System.out.println("Getデータ：" + event.getData());
+            System.out.println("Getデシリアライズ：" + event.getDataObjectDeserializer().getObject());
+            System.out.println("★★★★★★★★★★★★★");
+        } catch (SignatureVerificationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        if ("checkout.session.completed".equals(event.getType())) {
+            System.out.println("▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+            System.out.println("イベント：" + event.getType());
+            System.out.println("Getデータ：" + event.getData());
+            System.out.println("Getデシリアライズ：" + event.getDataObjectDeserializer().getObject());
+            System.out.println("▲▲▲▲▲▲▲▲▲▲▲▲▲▲");
+            stripeService.processSessionCompleted(event);
+        }
+
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
+/*
     @PostMapping("/stripe/webhook")
     public ResponseEntity<String> webhook(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
         Stripe.apiKey = stripeApiKey;
@@ -55,4 +86,5 @@ public class StripeWebhookController {
 
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
+ */ 
 }

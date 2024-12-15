@@ -102,11 +102,11 @@ public class ReservationController {
         
         ReservationRegisterForm reservationRegisterForm = new ReservationRegisterForm(restaurant.getId(), user.getId(), reservationInputForm.getReserveDate(), reservationInputForm.getNumberOfPeople(), amount);
         
-        String sessionId = stripeService.createStripeSession(restaurant.getName(), reservationRegisterForm, httpServletRequest);
+//        String sessionId = stripeService.createStripeSession(restaurant.getName(), reservationRegisterForm, httpServletRequest);
         
         model.addAttribute("restaurant", restaurant);  
         model.addAttribute("reservationRegisterForm", reservationRegisterForm);       
-        model.addAttribute("sessionId", sessionId);
+//        model.addAttribute("sessionId", sessionId);
         
         return "reservations/confirm";
     }   

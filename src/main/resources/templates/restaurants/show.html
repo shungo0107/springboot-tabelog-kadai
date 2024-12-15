@@ -173,7 +173,7 @@
                  
                  <!-- レビュー -->
                  <h2 class="m-4 text-center">レビュー</h2>  
-				<div class="text-center" sec:authorize="isAuthenticated()">
+				<div class="text-center" sec:authorize="hasRole('ROLE_PAID')">
 					  <a th:if="${!hasUserReviewed}" th:href="@{/review/register/__${restaurant.getId()}__}" class="btn text-white shadow-sm mb-3 nagoyameshi-btn w-25">レビューを投稿する</a>
 				</div>
                  <div class="review-card container center-block p-3">
@@ -181,7 +181,7 @@
 						 <div class="card-body">
 							 <div class="card-title d-flex justify-content-between">
 								 <h5 class="card-title" th:text="${reviews.getUser().getName()}"></h5>
-								 <div sec:authorize="isAuthenticated()" th:if="${user.id} == ${reviews.getUser().getId()}" >
+								 <div sec:authorize="hasRole('ROLE_PAID')" th:if="${user.id} == ${reviews.getUser().getId()}" >
 									 <a  th:href="@{/review/edit/__${reviews.getId()}__}">編集</a>
 									 <a  href="#" class="nagoyameshi-link-danger" data-bs-toggle="modal" th:data-bs-target="${'#deleteRestaurantModal' + reviews.getId()}">削除</a></td>     
 

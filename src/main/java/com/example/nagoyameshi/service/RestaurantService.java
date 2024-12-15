@@ -42,7 +42,7 @@ public class RestaurantService {
             copyImageFile(imageFile, filePath);
             restaurant.setImageName(hashedImageName);
         } else {
-        	restaurant.setImageName("noimage.jpg");
+        	restaurant.setImageName("noimage.png");
         }
         
         restaurant.setCategory(category);                

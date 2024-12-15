@@ -23,18 +23,18 @@ INSERT IGNORE INTO categories (id, name) VALUES (16,'スイーツ');
 
 
 --usersテーブル
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (1, '侍 太郎', 'サムライ タロウ',  'taro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true, 0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (2, '侍 花子', 'サムライ ハナコ',  'hanako.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (3, '侍 義勝', 'サムライ ヨシカツ',  'yoshikatsu.samurai@example.com', 'password', 2, false ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (4, '侍 幸美', 'サムライ サチミ',  'sachimi.samurai@example.com', 'password', 1, false ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (5, '侍 一郎', 'サムライ イチロウ',  'ichiro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true, 0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (6, '侍 次郎', 'サムライ ジロウ',  'ziro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (7, '侍 三郎', 'サムライ サブロウ',  'saburo.samurai@example.com', 'password', 2, false ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (8, '侍 四郎', 'サムライ シロウ',  'shiro.samurai@example.com', 'password', 1, false ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (9, '侍 五郎', 'サムライ ゴロウ',  'goro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true, 0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (10, '侍 六郎', 'サムライ ロクロウ',  'rokuro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (11, '侍 七郎', 'サムライ ナナロウ',  'nanaro.samurai@example.com', 'password', 2, false ,0);
- INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled , paid_flg) VALUES (12, '侍 八郎', 'サムライ ハチロウ',  'hachiro.samurai@example.com', 'password', 1, false ,0);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (1, '侍 太郎', 'サムライ タロウ',  'taro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (2, '侍 花子', 'サムライ ハナコ',  'hanako.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (3, '侍 義勝', 'サムライ ヨシカツ',  'yoshikatsu.samurai@example.com', 'password', 2, false);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (4, '侍 幸美', 'サムライ サチミ',  'sachimi.samurai@example.com', 'password', 1, false);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (5, '侍 一郎', 'サムライ イチロウ',  'ichiro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (6, '侍 次郎', 'サムライ ジロウ',  'ziro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (7, '侍 三郎', 'サムライ サブロウ',  'saburo.samurai@example.com', 'password', 2, false);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (8, '侍 四郎', 'サムライ シロウ',  'shiro.samurai@example.com', 'password', 1, false);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (9, '侍 五郎', 'サムライ ゴロウ',  'goro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (10, '侍 六郎', 'サムライ ロクロウ',  'rokuro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (11, '侍 七郎', 'サムライ ナナロウ',  'nanaro.samurai@example.com', 'password', 2, false);
+ INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES (12, '侍 八郎', 'サムライ ハチロウ',  'hachiro.samurai@example.com', 'password', 1, false);
  
  
  --restaurantsテーブル

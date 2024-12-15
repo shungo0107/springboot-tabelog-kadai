@@ -20,6 +20,10 @@
                          ログアウトしました。
                      </div>
                      
+                      <div th:if="${param.updatedpaid}" class="alert alert-info">
+                         会員情報とクレジットカード情報が更新されました。
+                     </div>                    
+                     
                      <div th:if="${successMessage}" class="alert alert-info">
                          <span th:text="${successMessage}"></span>
                      </div>   

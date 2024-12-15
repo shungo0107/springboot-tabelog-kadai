@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .permitAll()
              )
             .csrf((csrf) -> csrf
-                    .ignoringRequestMatchers("/stripe/webhook"));        
+                    .ignoringRequestMatchers("/stripe/webhook","/create-stripe-customer"));        
             
         return http.build();
     }

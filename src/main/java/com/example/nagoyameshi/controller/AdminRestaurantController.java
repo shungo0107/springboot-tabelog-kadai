@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Restaurant;
 import com.example.nagoyameshi.form.RestaurantEditForm;
 import com.example.nagoyameshi.form.RestaurantRegisterForm;
@@ -72,7 +73,7 @@ public class AdminRestaurantController {
     
     @GetMapping("/register")
     public String register(Model model) {
-    	List category = categoryRepository.findAll();
+    	List<Category> category = categoryRepository.findAll();
     	
     	model.addAttribute("categoryList", category);
         model.addAttribute("restaurantRegisterForm", new RestaurantRegisterForm());
@@ -97,7 +98,7 @@ public class AdminRestaurantController {
     public String edit(@PathVariable(name = "id") Integer id, 
     								Model model) {
         Restaurant restaurant = restaurantRepository.getReferenceById(id);
-        List category = categoryRepository.findAll();
+        List<Category> category = categoryRepository.findAll();
         String imageName = restaurant.getImageName();
         RestaurantEditForm restaurantEditForm = new RestaurantEditForm(restaurant.getId(),restaurant.getCategory().getId() ,restaurant.getName(), null, restaurant.getDescription(), restaurant.getPrice(), restaurant.getCapacity(), restaurant.getPostalCode(), restaurant.getAddress(), restaurant.getPhoneNumber());
         

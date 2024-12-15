@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nagoyameshi.entity.User;
@@ -28,7 +29,6 @@ public class UserController {
     										UserService userService) {
         this.userRepository = userRepository; 
          this.userService = userService;
-    
     }
     
     
@@ -55,8 +55,9 @@ public class UserController {
     
     @PostMapping("/update")
     public String update(@ModelAttribute @Validated UserEditForm userEditForm, 
-    										BindingResult bindingResult, 
-    										RedirectAttributes redirectAttributes) {
+    									@RequestParam(name = "paidInfoChangeFlg", required = false) String checkFlg,
+    									BindingResult bindingResult, 
+    									RedirectAttributes redirectAttributes) {
     	
         // メールアドレスが変更されており、かつ登録済みであれば、BindingResultオブジェクトにエラー内容を追加する
         if (userService.isEmailChanged(userEditForm) && userService.isEmailRegistered(userEditForm.getEmail())) {
@@ -69,8 +70,14 @@ public class UserController {
         }
         
         userService.update(userEditForm);
-        redirectAttributes.addFlashAttribute("successMessage", "会員情報を編集しました。");
+
+        if(checkFlg.equals("on")){
+        	return "paid/edit";
+        } else {
+        	redirectAttributes.addFlashAttribute("successMessage", "会員情報を編集しました。");
+        	return "redirect:/user";        	
+        }
         
-        return "redirect:/user";
+
     }  
 }

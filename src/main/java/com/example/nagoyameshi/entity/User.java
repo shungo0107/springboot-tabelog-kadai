@@ -39,27 +39,9 @@ public class User {
     
     @Column(name = "enabled")
     private Boolean enabled;
-    
-    @Column(name = "paid_flg")
-    private String paidFlg;    
 
-    @Column(name = "credit_first_name")
-    private String creditFirstName;    
-
-    @Column(name = "credit_last_name")
-    private String creditLastName;    
-
-    @Column(name = "credit_number")
-    private String creditNumber;    
-
-    @Column(name = "credit_year")
-    private String creditYear;    
-
-    @Column(name = "credit_month")
-    private String creditMonth; 
-    
-    @Column(name = "credit_secure_code")
-    private String creditSecureCode;     
+    @Column(name = " stripe_customer_id")
+    private String stripeCustomerId;     
     
     @Column(name = "create_date", insertable = false, updatable = false)
     private Timestamp createDate;
