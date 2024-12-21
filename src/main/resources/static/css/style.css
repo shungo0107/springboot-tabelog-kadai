@@ -140,6 +140,38 @@ footer {
     background-color: #fff;
 }
 
+#cardholder-name{
+	color: #32325d;
+	font-Family: '"Helvetica Neue", Helvetica, sans-serif';
+	font-Size: 16px;
+	border-top: none;
+	border-right: none;
+	border-left: none;	
+	border-color:	#DDDDDD;
+}    
+
+#cardholder-name::placeholder {
+	color: #aab7c4;
+}
+
+#cardholder-name:focus {
+	outline: none;
+	border-top: none;
+	border-right: none;
+	border-left: none;	
+	border-color:	#DDDDDD;
+}
+
+#category-btn{
+	outline: solid;
+	outline-color:#5196a6;
+	color:#5196a6;
+}
+
+.favorite-link{
+	color:#5196a6;
+	text-decoration: none;
+}
  
 @media screen and (min-width: 1400px) {
   .nagoyameshi-container {

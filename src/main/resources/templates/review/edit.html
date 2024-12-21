@@ -25,7 +25,7 @@
                                  </ol>
                              </nav>
                              
-                             <h1 class="mb-4 text-center" th:text="${restaurant.name} + 'のレビュー登録'"></h1>      
+                             <h1 class="mb-4 text-center" th:text="${restaurant.name}"></h1>      
                              
                              <form method="post" th:action="@{/review/update/__${id}__}" th:object="${reviewEditForm}">                                                            
                                  <div class="form-group row mb-3">

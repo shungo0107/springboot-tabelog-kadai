@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nagoyameshi.entity.User;
-import com.example.nagoyameshi.form.PaidInputForm;
 import com.example.nagoyameshi.repository.UserRepository;
 import com.example.nagoyameshi.security.UserDetailsImpl;
 import com.example.nagoyameshi.service.StripeService;
@@ -33,7 +32,8 @@ public class PaidController {
 	    	this.userService = userService;
 	    	this.userRepository = userRepository;
 	    }
-
+	    
+    // 有料会員情報を開く
 	@GetMapping
 	public String index( HttpServletRequest httpServletRequest,
 										@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
@@ -42,12 +42,12 @@ public class PaidController {
 		User user = userDetailsImpl.getUser(); 
 		String sessionId = stripeService.createStripeSession(user.getId(),user.getEmail(),httpServletRequest);
 		
-		model.addAttribute("paidInputForm", new PaidInputForm());
 		model.addAttribute("sessionId", sessionId);
 		
 		return "paid/index";
 	}
 	
+	// サブスクリプション支払いの完了処理
 	@GetMapping("/completed/{id}")
 	@Transactional
 	public String handleSuccess(HttpServletRequest httpServletRequest,

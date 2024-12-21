@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +29,24 @@ public class RestaurantService {
     												CategoryRepository categoryRepository) {
         this.restaurantRepository = restaurantRepository;
         this.categoryRepository = categoryRepository;
-    }    
+    } 
     
+    // 店舗を検索する
+    public Page<Restaurant> findRestaurantsWithDynamicCriteria(String name, 
+    																											String address, 
+    																											Integer category, 
+    																											Integer price,
+    																											Pageable pageable) {
+    	
+        Specification<Restaurant> spec = Specification.where(RestaurantSpecifications.hasName(name)
+        																				.or(RestaurantSpecifications.hasAddress(address)))
+        																				.and(RestaurantSpecifications.hasCategory(category))
+                                                										.and(RestaurantSpecifications.priceLessThanOrEqualTo(price));
+
+        return restaurantRepository.findAll(spec, pageable);
+    }
+    
+    // 店舗を作成する
     @Transactional
     public void create(RestaurantRegisterForm restaurantRegisterForm) {
         Restaurant restaurant = new Restaurant();
@@ -57,6 +76,7 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }  
     
+    // 店舗情報を更新する
     @Transactional
     public void update(RestaurantEditForm restaurantEditForm) {
         Restaurant restaurant = restaurantRepository.getReferenceById(restaurantEditForm.getId());

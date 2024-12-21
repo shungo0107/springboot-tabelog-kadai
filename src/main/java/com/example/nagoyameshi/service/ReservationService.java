@@ -1,7 +1,6 @@
 package com.example.nagoyameshi.service;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.nagoyameshi.entity.Reservation;
 import com.example.nagoyameshi.entity.Restaurant;
 import com.example.nagoyameshi.entity.User;
+import com.example.nagoyameshi.form.ReservationRegisterForm;
 import com.example.nagoyameshi.repository.ReservationRepository;
 import com.example.nagoyameshi.repository.RestaurantRepository;
 import com.example.nagoyameshi.repository.UserRepository;
@@ -27,27 +27,26 @@ public class ReservationService {
     }    
     
     @Transactional
-    public void create(Map<String, String> paymentIntentObject) { 
+    public void create(ReservationRegisterForm reservationRegisterForm) { 
         Reservation reservation = new Reservation();
-        
-        Integer restaurantId = Integer.valueOf(paymentIntentObject.get("restaurantId"));
-        Integer userId = Integer.valueOf(paymentIntentObject.get("userId"));
-        
-        Restaurant restaurant = restaurantRepository.getReferenceById(restaurantId);  
-        User user = userRepository.getReferenceById(userId);
-        LocalDate ReserveDate = LocalDate.parse(paymentIntentObject.get("reserveDate"));
-        Integer numberOfPeople = Integer.valueOf(paymentIntentObject.get("numberOfPeople"));        
-        Integer amount = Integer.valueOf(paymentIntentObject.get("amount")); 
+        Restaurant restaurant = restaurantRepository.getReferenceById(reservationRegisterForm.getRestaurantId());
+        User user = userRepository.getReferenceById(reservationRegisterForm.getUserId());
+        LocalDate reserveDate = LocalDate.parse(reservationRegisterForm.getReserveDate());        
                 
         reservation.setRestaurant(restaurant);
         reservation.setUser(user);
-        reservation.setReserveDate(ReserveDate);
-        reservation.setNumberOfPeople(numberOfPeople);
-        reservation.setAmount(amount);
+        reservation.setReserveDate(reserveDate);
+        reservation.setNumberOfPeople(reservationRegisterForm.getNumberOfPeople());
+        reservation.setAmount(reservationRegisterForm.getAmount());
         
         reservationRepository.save(reservation);
-    }   
-	
+    } 
+    
+    @Transactional
+    public void delete(Integer reservationId) { 
+        reservationRepository.deleteById(reservationId);
+    } 
+    
     // 人数が定員以下かどうかをチェックする
     public boolean isWithinCapacity(Integer numberOfPeople, Integer capacity) {
         return numberOfPeople <= capacity;

@@ -25,10 +25,12 @@ public class HomeController {
 	
     @GetMapping("/")
     public String index(Model model) {
-        List<Restaurant> newHouses = restaurantRepository.findTop5ByOrderByCreateDateDesc();
+        List<Restaurant> newRestaurants = restaurantRepository.findTop5ByOrderByCreateDateDesc();
+        List<Restaurant> popularRestaurants = restaurantRepository.findTop5();
         List<Category> category = categoryRepository.findAll();
         
-        model.addAttribute("newHouses", newHouses);
+        model.addAttribute("newRestaurants", newRestaurants);
+        model.addAttribute("popularRestaurants", popularRestaurants);
         model.addAttribute("categoryList", category);
         
         return "index";

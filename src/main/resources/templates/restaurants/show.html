@@ -28,12 +28,12 @@
                              <div sec:authorize="hasRole('ROLE_PAID')" class="d-flex justify-content-end">
 								 <div th:if="${hasUserFavorite}">
 									 <form th:action="@{/favorite/delete/__${restaurant.id}__}" method="post">
-										 <button type="submit" class="btn btn-link text-decolation-none right">&#9829;お気に入り解除</button> <!-- &#9829; は ♥ -->
+										 <button type="submit" class="btn btn-link text-decolation-none right favorite-link">&#9829;お気に入り解除</button> <!-- &#9829; は ♥ -->
 								     </form>
 								 </div>
 								 <div th:unless="${hasUserFavorite}" >
 									 <form th:action="@{/favorite/add/__${restaurant.id}__}" method="post">
-										 <button type="submit" class="btn btn-link text-decolation-none right">&#9825;お気に入り追加</button> <!-- &#9825; は ♡ -->
+										 <button type="submit" class="btn btn-link text-decolation-none right favorite-link">&#9825;お気に入り追加</button> <!-- &#9825; は ♡ -->
 								    </form>
 								 </div>
 							 </div>
@@ -172,7 +172,7 @@
                  </div>
                  
                  <!-- レビュー -->
-                 <h2 class="m-4 text-center">レビュー</h2>  
+                 <h2 class="m-2 text-center">レビュー</h2>  
 				<div class="text-center" sec:authorize="hasRole('ROLE_PAID')">
 					  <a th:if="${!hasUserReviewed}" th:href="@{/review/register/__${restaurant.getId()}__}" class="btn text-white shadow-sm mb-3 nagoyameshi-btn w-25">レビューを投稿する</a>
 				</div>

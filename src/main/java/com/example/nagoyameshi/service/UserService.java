@@ -84,7 +84,6 @@ public class UserService {
      public void createCredit(Integer userId,String customerId) {
     	 
          System.out.println("=================createCredit開始=================");
-         System.out.println("paymentMethodId：" + customerId);
          User user = userRepository.getReferenceById(userId);
          user.setStripeCustomerId(customerId); 
          userRepository.save(user);
@@ -92,6 +91,19 @@ public class UserService {
   
      }
      
+     // 有料会員情報を解約する
+     @Transactional
+     public void cancelCredit(Integer userId) {
+    	 
+         System.out.println("=================cancelCredit開始=================");
+         User user = userRepository.getReferenceById(userId);
+         Role role = roleRepository.findByName("ROLE_GENERAL");
+         user.setRole(role); 
+         user.setStripeCustomerId(null);
+         userRepository.save(user);
+         System.out.println("=================cancelCredit終了=================");
+  
+     }
      
      // パスワードを再設定する
      @Transactional

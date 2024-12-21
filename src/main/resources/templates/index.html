@@ -22,11 +22,15 @@
                      
                       <div th:if="${param.updatedpaid}" class="alert alert-info">
                          会員情報とクレジットカード情報が更新されました。
-                     </div>                    
-                     
+                     </div>     
+                                    
+                     <div th:if="${param.deletedpaid}" class="alert alert-info">
+                         プランが変更されました。
+                     </div>                     
                      <div th:if="${successMessage}" class="alert alert-info">
                          <span th:text="${successMessage}"></span>
                      </div>   
+                     
                      <div class="d-flex justify-content-center">                                            
                          <form method="get" th:action="@{/restaurants}" class="mb-5 nagoyameshi-search-form">
                              <div class="input-group">
@@ -38,18 +42,18 @@
                                                       
                      <h1 class="text-center mb-3">新着</h1>
                      <div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">                                        
-                         <div class="col" th:each="newHouse : ${newHouses}">
-                             <a th:href="@{/restaurants/__${newHouse.getId()}__}" class="link-dark nagoyameshi-card-link">
+                         <div class="col" th:each="newRestaurant : ${newRestaurants}">
+                             <a th:href="@{/restaurants/__${newRestaurant.getId()}__}" class="link-dark nagoyameshi-card-link">
                                  <div class="card h-100">                                                                        
-                                     <img th:if="${newHouse.getImageName()}" th:src="@{/storage/__${newHouse.getImageName()}__}" class="card-img-top nagoyameshi-vertical-card-image" alt="店舗画像">                                     
-                                     <img th:unless="${newHouse.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top nagoyameshi-vertical-card-image" alt="NO IMAGE">                                                                                                                        
+                                     <img th:if="${newRestaurant.getImageName()}" th:src="@{/storage/__${newRestaurant.getImageName()}__}" class="card-img-top nagoyameshi-vertical-card-image" alt="店舗画像">                                     
+                                     <img th:unless="${newRestaurant.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top nagoyameshi-vertical-card-image" alt="NO IMAGE">                                                                                                                        
                                      <div class="card-body">                                    
-                                         <h3 class="card-title" th:text="${newHouse.getName()}"></h3>
+                                         <h3 class="card-title" th:text="${newRestaurant.getName()}"></h3>
                                          <p class="card-text mb-1">
-                                             <small class="text-muted" th:text="${newHouse.getAddress()}"></small>                                            
+                                             <small class="text-muted" th:text="${newRestaurant.getAddress()}"></small>                                            
                                          </p>
                                          <p class="card-text">
-                                             <span th:text="${#numbers.formatInteger(newHouse.getPrice(), 1, 'COMMA') + '円 / 人'}"></span>                                            
+                                             <span th:text="${#numbers.formatInteger(newRestaurant.getPrice(), 1, 'COMMA') + '円 / 人'}"></span>                                            
                                          </p>                                    
                                      </div>
                                  </div>    
@@ -61,14 +65,34 @@
                          <div class="col-xl-14 col-lg-10 col-md-20">                    
                      
                              <h1 class="text-center mb-3">カテゴリから探す</h1>
-                             
-                             <form method="get" th:action="@{/restaurants}" class="mb-5">
-								 <button type="submit" class="btn btn-outline-primary" name="category" th:each="category : ${categoryList}" th:text="${category.getName()}" th:value="${category.getId()}"></button> 
-							 </form>                         
-                              
+                             <form method="get" th:action="@{/restaurants}" class="m-2">
+								 <button type="submit" id="category-btn" class="btn m-2" name="category" th:each="category : ${categoryList}" th:text="${category.getName()}" th:value="${category.getId()}"></button> 
+							 </form>
+							                               
                          </div>
-                     </div>                   
+                     </div>
                      
+                     <h1 class="text-center mb-3">人気店</h1>
+                     <div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">                                        
+                         <div class="col" th:each="popularRestaurant : ${popularRestaurants}">
+                             <a th:href="@{/restaurants/__${popularRestaurant.getId()}__}" class="link-dark nagoyameshi-card-link">
+                                 <div class="card h-100">                                                                        
+                                     <img th:if="${popularRestaurant.getImageName()}" th:src="@{/storage/__${popularRestaurant.getImageName()}__}" class="card-img-top nagoyameshi-vertical-card-image" alt="店舗画像">                                     
+                                     <img th:unless="${popularRestaurant.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top nagoyameshi-vertical-card-image" alt="NO IMAGE">                                                                                                                        
+                                     <div class="card-body">                                    
+                                         <h3 class="card-title" th:text="${popularRestaurant.getName()}"></h3>
+                                         <p class="card-text mb-1">
+                                             <small class="text-muted" th:text="${popularRestaurant.getAddress()}"></small>                                            
+                                         </p>
+                                         <p class="card-text">
+                                             <span th:text="${#numbers.formatInteger(popularRestaurant.getPrice(), 1, 'COMMA') + '円 / 人'}"></span>                                            
+                                         </p>                                    
+                                     </div>
+                                 </div>    
+                             </a>            
+                         </div>                                               
+                     </div>                         
+
                  </div>
              </main>
              

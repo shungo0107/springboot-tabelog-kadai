@@ -25,17 +25,18 @@
                              
                              <h1 class="mb-3 text-center">予約一覧</h1>  
              
-                              <div th:if="${param.reserved}" class="alert alert-info">
-                                 予約が完了しました。
-                             </div>   
-                             
+                             <div th:if="${successMessage}" class="alert alert-info">
+								 <span th:text="${successMessage}"></span>
+							 </div>
+							            
                              <table class="table">
                                  <thead>
                                      <tr>                            
                                          <th scope="col">店舗名</th>
                                          <th scope="col">予約日</th>
                                          <th scope="col">人数</th>
-                                         <th scope="col">金額</th>                                        
+                                         <th scope="col">金額</th>
+                                         <th scope="col"></th>                                 
                                      </tr>
                                  </thead>   
                                  <tbody>                                                    
@@ -46,6 +47,26 @@
                                          <td th:text="${reservation.getReserveDate()}"></td>
                                          <td th:text="${reservation.getNumberOfPeople + '名'}"></td>
                                          <td th:text="${#numbers.formatInteger(reservation.getAmount(), 1, 'COMMA') + '円'}"></td>
+                                         <td><a href="#" class="nagoyameshi-link-danger" data-bs-toggle="modal" th:data-bs-target="${'#deleteReservationModal' + reservation.getId()}">削除</a></td>
+
+										 <!-- 削除用モーダル -->
+                                         <div class="modal fade" th:id="${'deleteReservationModal' + reservation.getId()}" tabindex="-1" th:aria-labelledby="${'deleteReservationModalLabel' + reservation.getId()}">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                     <div class="modal-header">
+                                                         <h5 class="modal-title" th:id="${'deleteReservationModalLabel' + reservation.getId()}" th:text="${reservation.getRestaurant().getName() + 'の予約を削除してもよろしいですか？'}"></h5>
+                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                                                     </div>
+                                                     <div class="modal-footer">
+                                                         <form method="get" th:action="@{/reservations/delete/__${reservation.getId()}__}">
+															 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                                             <button type="submit" class="btn nagoyameshi-btn-danger text-white shadow-sm">OK</button>
+                                                         </form>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div> 
+                                           
                                      </tr>                                    
                                  </tbody>
                              </table>    

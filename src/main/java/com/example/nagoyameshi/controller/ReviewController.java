@@ -101,8 +101,8 @@ public class ReviewController {
 	    public String edit(@PathVariable(name = "id") Integer id,
 	    		                         Model model) {
 	    	
-	    	Restaurant restaurant = restaurantRepository.getReferenceById(id);
 	    	Review review = reviewRepository.getReferenceById(id);
+	    	Restaurant restaurant = restaurantRepository.getReferenceById(review.getRestaurant().getId());
 	    	ReviewEditForm reviewEditForm = new ReviewEditForm(id,review.getAssessment(),review.getComment());
 	    	
 	    	 model.addAttribute("reviewEditForm",reviewEditForm);

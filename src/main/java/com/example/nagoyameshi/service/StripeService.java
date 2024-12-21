@@ -75,14 +75,9 @@ public class StripeService {
         	}
         }
 
-    // セッションから予約情報を取得し、ReservationServiceクラスを介してデータベースに登録する  
+    // セッションから会員情報を取得し、UserServiceクラスを介してデータベースに登録する  
     public void processSessionCompleted(Event event) {
         Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();
-        System.out.println("●●●●●●●●●●●●●●");
-        System.out.println("イベント：" + event.getType());
-        System.out.println("Getデータ：" + event.getData());
-        System.out.println("Getデシリアライズ：" + event.getDataObjectDeserializer().getObject());
-        System.out.println("●●●●●●●●●●●●●●");
         optionalStripeObject.ifPresentOrElse(stripeObject -> {
             Session session = (Session)stripeObject;
             String customerId = session.getCustomer();
@@ -98,11 +93,6 @@ public class StripeService {
                 Integer userId = Integer.parseInt(metadata.get("userId"));
                 String email = metadata.get("email");
 
-                System.out.println("■■■■■■■■■■■");
-                System.out.println("ユーザID：" + userId);
-                System.out.println("Eメール：" + email);;
-                System.out.println("■■■■■■■■■■■");
-                
                 userService.updatePaid(userId);
                 
             } catch (StripeException e) {
@@ -118,79 +108,6 @@ public class StripeService {
             System.out.println("stripe-java Version: " + Stripe.VERSION);
         });
     }
-
-    /*    public String createStripeSession(String restaurantName, ReservationRegisterForm reservationRegisterForm, HttpServletRequest httpServletRequest) {
-    Stripe.apiKey = stripeApiKey;
-    String requestUrl = new String(httpServletRequest.getRequestURL());
-    SessionCreateParams params =
-        SessionCreateParams.builder()
-            .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-            .addLineItem(
-                SessionCreateParams.LineItem.builder()
-                    .setPriceData(
-                        SessionCreateParams.LineItem.PriceData.builder()   
-                            .setProductData(
-                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                    .setName(restaurantName)
-                                    .build())
-                            .setUnitAmount((long)reservationRegisterForm.getAmount())
-                            .setCurrency("jpy")                                
-                            .build())
-                    .setQuantity(1L)
-                    .build())
-            .setMode(SessionCreateParams.Mode.PAYMENT)
-            .setSuccessUrl(requestUrl.replaceAll("/restaurants/[0-9]+/reservations/confirm", "") + "/reservations?reserved")
-            .setCancelUrl(requestUrl.replace("/reservations/confirm", ""))
-            .setPaymentIntentData(
-                SessionCreateParams.PaymentIntentData.builder()
-                    .putMetadata("restaurantId", reservationRegisterForm.getRestaurantId().toString())
-                    .putMetadata("userId", reservationRegisterForm.getUserId().toString())
-                    .putMetadata("reserveDate", reservationRegisterForm.getReserveDate())
-                    .putMetadata("numberOfPeople", reservationRegisterForm.getNumberOfPeople().toString())
-                    .putMetadata("amount", reservationRegisterForm.getAmount().toString())
-                    .build())
-            .build();
-    try {
-        Session session = Session.create(params);
-        return session.getId();
-    } catch (StripeException e) {
-        e.printStackTrace();
-        return "";
-    }
-}
-
-*/    
-    /*
-    // セッションから予約情報を取得し、ReservationServiceクラスを介してデータベースに登録する  
-    public void processSessionCompleted(Event event) {
-        Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();
-        System.out.println("●●●●●●●●●●●●●●");
-        System.out.println("イベント：" + event.getType());
-        System.out.println("Getデータ：" + event.getData());
-        System.out.println("Getデシリアライズ：" + event.getDataObjectDeserializer().getObject());
-        System.out.println("●●●●●●●●●●●●●●");
-        optionalStripeObject.ifPresentOrElse(stripeObject -> {
-            Session session = (Session)stripeObject;
-            SessionRetrieveParams params = SessionRetrieveParams.builder().addExpand("payment_intent").build();
-
-            try {
-                session = Session.retrieve(session.getId(), params, null);
-                Map<String, String> paymentIntentObject = session.getPaymentIntentObject().getMetadata();
-                userService.updatePaid(paymentIntentObject);
-            } catch (StripeException e) {
-                e.printStackTrace();
-            }
-            System.out.println("予約一覧ページの登録処理が成功しました。");
-            System.out.println("Stripe API Version: " + event.getApiVersion());
-            System.out.println("stripe-java Version: " + Stripe.VERSION);
-        },
-        () -> {
-            System.out.println("予約一覧ページの登録処理が失敗しました。");
-            System.out.println("Stripe API Version: " + event.getApiVersion());
-            System.out.println("stripe-java Version: " + Stripe.VERSION);
-        });
-    }
-*/    
     
 }
 

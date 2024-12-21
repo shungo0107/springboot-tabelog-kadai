@@ -3,7 +3,9 @@ package com.example.nagoyameshi.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +26,7 @@ import com.example.nagoyameshi.repository.FavoriteRepository;
 import com.example.nagoyameshi.repository.RestaurantRepository;
 import com.example.nagoyameshi.repository.ReviewRepository;
 import com.example.nagoyameshi.security.UserDetailsImpl;
+import com.example.nagoyameshi.service.RestaurantService;
 
 @Controller
 @RequestMapping("/restaurants")
@@ -32,54 +35,55 @@ public class RestaurantController {
     private final ReviewRepository reviewRepository;        
     private final FavoriteRepository favoriteRepository;
     private final CategoryRepository categoryRepository;
+    private final RestaurantService restaurantService;
     
     public RestaurantController(RestaurantRepository restaurantRepository,
     													ReviewRepository reviewRepository,
     													FavoriteRepository favoriteRepository,
-    													CategoryRepository categoryRepository) {
+    													CategoryRepository categoryRepository,
+    													RestaurantService restaurantService) {
         this.restaurantRepository = restaurantRepository; 
         this.favoriteRepository = favoriteRepository;  
         this.reviewRepository = reviewRepository;
         this.categoryRepository = categoryRepository;
+        this.restaurantService = restaurantService;
     }     
   
     @GetMapping
     public String index(@RequestParam(name = "keyword", required = false) String keyword,
                         @RequestParam(name = "category", required = false) Integer category,
                         @RequestParam(name = "price", required = false) Integer price,
-                        @RequestParam(name = "order", required = false) String order,
-                        @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
+                        @RequestParam(name = "order", required = false, defaultValue = "id-asc") String order,
+                        @PageableDefault(page = 0, size = 10) Pageable defaultPageable,
                         Model model) 
     {
-        Page<Restaurant> restaurantPage;
-        List<Category> categoryList = categoryRepository.findAll();
-                
-        if (keyword != null && !keyword.isEmpty()) {
-            if (order != null && order.equals("priceAsc")) {
-                restaurantPage = restaurantRepository.findByNameLikeOrAddressLikeOrderByPriceAsc("%" + keyword + "%", "%" + keyword + "%", pageable);
-            } else {
-                restaurantPage = restaurantRepository.findByNameLikeOrAddressLikeOrderByCreateDateDesc("%" + keyword + "%", "%" + keyword + "%", pageable);
-            }            
-       } else if (category != null) {
-            if (order != null && order.equals("priceAsc")) {
-                restaurantPage = restaurantRepository.findByCategoryIdOrderByPriceAsc(category , pageable);
-            } else {
-                restaurantPage = restaurantRepository.findByCategoryIdOrderByCreateDateDesc(category , pageable);
-            }            
-       } else if (price != null) {
-            if (order != null && order.equals("priceAsc")) {
-                restaurantPage = restaurantRepository.findByPriceLessThanEqualOrderByPriceAsc(price, pageable);
-            } else {
-                restaurantPage = restaurantRepository.findByPriceLessThanEqualOrderByCreateDateDesc(price, pageable);
-            }            
-       } else {
-            if (order != null && order.equals("priceAsc")) {
-                restaurantPage = restaurantRepository.findAllByOrderByPriceAsc(pageable);
-            } else {
-                restaurantPage = restaurantRepository.findAllByOrderByCreateDateDesc(pageable);   
-            }            
-       }
+
+    	String[] orderList = order.split("-");
+    	String orderKey = orderList[0];
+    	String orderDirecition = orderList[1];    	
+
+    	System.out.println("keyword：" + keyword);
+    	System.out.println("category：" + category);
+    	System.out.println("price：" + price);
+    	System.out.println("orderKey：" + orderKey);
+    	System.out.println("orderDirecition：" + orderDirecition);
+    	
+    	// 入力されたdirectionに基づいてSort.Directionを決定
+        Sort.Direction sortDirection = orderDirecition.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+    	System.out.println("sortDirection：" + sortDirection);
         
+        // Sortオブジェクトを作成
+        Sort sort = Sort.by(sortDirection , orderKey);
+        
+        // PageRequestを使用してPageableを作成
+        Pageable pageable = PageRequest.of(defaultPageable.getPageNumber(), defaultPageable.getPageSize(), sort);
+        
+    	System.out.println("pageable：" + pageable);
+        
+        Page<Restaurant> restaurantPage =  restaurantService.findRestaurantsWithDynamicCriteria(keyword, keyword, category, price, pageable);
+        List<Category> categoryList = categoryRepository.findAll();      
+
         model.addAttribute("restaurantPage", restaurantPage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("category", category);
@@ -89,7 +93,7 @@ public class RestaurantController {
         
         return "restaurants/index";
     }
-    
+
     @GetMapping("/{id}")
     public String show(@PathVariable(name = "id") Integer restaurantId, 
     									@PageableDefault(page = 0, size = 6, direction = Direction.ASC) Pageable pageable,
